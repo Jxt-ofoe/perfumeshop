@@ -52,7 +52,7 @@ export default function ProductDetailClient({
           <img
             src={proxyImage(product.image)}
             alt={product.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, zIndex: 1 }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = `https://placehold.co/600x800/120e0a/6c8480?text=${encodeURIComponent(product.name)}`;
             }}
