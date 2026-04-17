@@ -39,7 +39,9 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           src={product.image}
           alt={product.name}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = `https://placehold.co/400x500/120e0a/c9a96e?text=${encodeURIComponent(product.name)}`;
+          }}
         />
       </div>
 
