@@ -10,6 +10,8 @@ import FamiliesSection from './sections/FamiliesSection';
 import TestimonialsSection from './sections/TestimonialsSection';
 import NewsletterSection from './sections/NewsletterSection';
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'VELOUR | Luxury Fragrance — Artisanal French Perfumery',
   description:

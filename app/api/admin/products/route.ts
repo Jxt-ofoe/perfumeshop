@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { products } from '@/lib/db/schema';
 import { desc, sql, like, or } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -90,6 +91,8 @@ export async function POST(request: Request) {
       featured: body.featured || false,
     }).returning();
 
+    revalidatePath('/');
+    revalidatePath('/collection');
     return NextResponse.json({ success: true, product: inserted });
   } catch (error) {
     console.error('Create Product Error:', error);

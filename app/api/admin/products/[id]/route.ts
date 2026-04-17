@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { products, orderItems } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +14,20 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
     const [updated] = await db
       .update(products)
-      .set(body)
+      .set({
+        name: body.name,
+        slug: body.slug,
+        description: body.description,
+        price: parseInt(body.price),
+        image: body.image,
+        category: body.category,
+        scentFamily: body.scentFamily,
+        topNotes: body.topNotes,
+        heartNotes: body.heartNotes,
+        baseNotes: body.baseNotes,
+        size: body.size,
+        featured: body.featured,
+      })
       .where(eq(products.id, id))
       .returning();
 
@@ -21,6 +35,9 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
+    revalidatePath('/');
+    revalidatePath('/collection');
+    revalidatePath(`/collection/${updated.slug}`);
     return NextResponse.json({ success: true, product: updated });
   } catch (error) {
     console.error('Update Product Error:', error);
@@ -56,6 +73,8 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
+    revalidatePath('/');
+    revalidatePath('/collection');
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Delete Product Error:', error);
