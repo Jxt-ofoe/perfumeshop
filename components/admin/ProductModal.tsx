@@ -89,10 +89,10 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
       display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem'
     }}>
       <div style={{
-        background: '#120e0a', borderRadius: '8px', border: '1px solid rgba(108,132,128,0.3)',
+        background: '#0d0d1f', borderRadius: '8px', border: '1px solid rgba(124,58,237,0.3)',
         width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid rgba(108,132,128,0.1)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid rgba(124,58,237,0.1)' }}>
           <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.5rem', color: 'var(--color-gold)' }}>
             {product ? 'Edit Product' : 'New Product'}
           </h2>

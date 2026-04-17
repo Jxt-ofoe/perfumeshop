@@ -34,7 +34,7 @@ export default function OrderConfirmationClient({
       const contentW = pageW - margin * 2;
       let y = margin;
 
-      const gold: [number, number, number] = [108, 132, 128];
+      const gold: [number, number, number] = [124, 58, 237];
       const black: [number, number, number] = [10, 8, 5];
       const grey: [number, number, number] = [100, 95, 90];
 
@@ -164,7 +164,7 @@ export default function OrderConfirmationClient({
     clearCart();
 
     const triggerConfetti = () => {
-      const colors = ['#6c8480', '#f5f0e8', '#ffffff'];
+      const colors = ['#7c3aed', '#f0f0ff', '#ffffff'];
 
       confetti({
         particleCount: 100,
@@ -248,7 +248,7 @@ export default function OrderConfirmationClient({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        style={{ width: '100%', padding: '2rem', background: '#120e0a', borderRadius: '8px', border: '1px solid rgba(108,132,128,0.1)' }}
+        style={{ width: '100%', padding: '2rem', background: '#0d0d1f', borderRadius: '8px', border: '1px solid rgba(124,58,237,0.1)' }}
       >
         <div style={{ textAlign: 'center', marginBottom: '2rem', fontFamily: 'var(--font-cormorant)', color: 'var(--color-gold)', fontSize: '1.5rem' }}>
           VELOUR
