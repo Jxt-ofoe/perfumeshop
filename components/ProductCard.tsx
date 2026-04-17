@@ -5,6 +5,12 @@ import { toast } from 'sonner';
 import { useCart } from '@/lib/store/cart-context';
 import type { Product } from '@/lib/types';
 
+function proxyImage(url: string) {
+  if (!url) return '';
+  if (url.startsWith('/')) return url;
+  return `/api/image-proxy?url=${encodeURIComponent(url)}`;
+}
+
 interface ProductCardProps {
   product: Product;
   index?: number;
@@ -36,11 +42,11 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     >
       <div className="product-card-image">
         <img
-          src={product.image}
+          src={proxyImage(product.image)}
           alt={product.name}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           onError={(e) => {
-            (e.target as HTMLImageElement).src = `https://placehold.co/400x500/120e0a/c9a96e?text=${encodeURIComponent(product.name)}`;
+            (e.target as HTMLImageElement).src = `https://placehold.co/400x500/120e0a/6c8480?text=${encodeURIComponent(product.name)}`;
           }}
         />
       </div>

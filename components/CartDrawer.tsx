@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart-context';
 
+function proxyImage(url: string) {
+  if (!url) return '';
+  if (url.startsWith('/')) return url;
+  return `/api/image-proxy?url=${encodeURIComponent(url)}`;
+}
+
 interface CartDrawerProps {
   isOpen: boolean;
 }
@@ -62,11 +68,11 @@ export default function CartDrawer({ isOpen }: CartDrawerProps) {
                   <div className="cart-item" key={item.product.id}>
                     <div className="cart-item-image">
                       <img
-                        src={item.product.image}
+                        src={proxyImage(item.product.image)}
                         alt={item.product.name}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = `https://placehold.co/70x90/120e0a/c9a96e?text=${encodeURIComponent(item.product.name)}`;
+                          (e.target as HTMLImageElement).src = `https://placehold.co/70x90/120e0a/6c8480?text=${encodeURIComponent(item.product.name)}`;
                         }}
                       />
                     </div>

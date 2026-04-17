@@ -7,6 +7,12 @@ import { useCart } from '@/lib/store/cart-context';
 import ProductCard from '@/components/ProductCard';
 import type { Product } from '@/lib/types';
 
+function proxyImage(url: string) {
+  if (!url) return '';
+  if (url.startsWith('/')) return url;
+  return `/api/image-proxy?url=${encodeURIComponent(url)}`;
+}
+
 interface ProductDetailClientProps {
   product: Product;
   relatedProducts: Product[];
@@ -44,11 +50,11 @@ export default function ProductDetailClient({
           transition={{ duration: 0.8 }}
         >
           <img
-            src={product.image}
+            src={proxyImage(product.image)}
             alt={product.name}
             style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
             onError={(e) => {
-              (e.target as HTMLImageElement).src = `https://placehold.co/600x800/120e0a/c9a96e?text=${encodeURIComponent(product.name)}`;
+              (e.target as HTMLImageElement).src = `https://placehold.co/600x800/120e0a/6c8480?text=${encodeURIComponent(product.name)}`;
             }}
           />
         </motion.div>
