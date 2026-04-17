@@ -7,7 +7,7 @@ import {
 } from 'recharts';
 import { toast } from 'sonner';
 
-const COLORS = ['#c9a96e', '#d8bd8a', '#e8d2ac', '#f5f0e8', '#ffffff'];
+const COLORS = ['#6c8480', '#8aa4a0', '#a8c0bc', '#c6dbd8', '#e4f0ef'];
 
 export default function AdminDashboard() {
   const [data, setData] = useState<any>(null);
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
           style={{
             background: 'var(--color-background)',
             color: 'var(--color-text)',
-            border: '1px solid rgba(201,169,110,0.3)',
+            border: '1px solid rgba(108,132,128,0.3)',
             padding: '0.5rem 1rem',
             borderRadius: '4px',
             fontFamily: 'inherit'
@@ -88,10 +88,10 @@ export default function AdminDashboard() {
                   <XAxis dataKey="date" stroke="rgba(255,255,255,0.4)" fontSize={12} tickMargin={10} />
                   <YAxis stroke="rgba(255,255,255,0.4)" fontSize={12} tickFormatter={(val) => `GH₵${val/100}`} />
                   <RechartsTooltip 
-                    contentStyle={{ backgroundColor: '#120e0a', borderColor: 'rgba(201,169,110,0.3)', color: '#f5f0e8' }}
+                    contentStyle={{ backgroundColor: '#120e0a', borderColor: 'rgba(108,132,128,0.3)', color: '#f5f0e8' }}
                     formatter={(value: any) => [formatCurrency(value || 0), 'Revenue']}
                   />
-                  <Line type="monotone" dataKey="revenue" stroke="#c9a96e" strokeWidth={2} dot={{ r: 4, fill: '#c9a96e' }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="revenue" stroke="#6c8480" strokeWidth={2} dot={{ r: 4, fill: '#6c8480' }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
@@ -113,10 +113,10 @@ export default function AdminDashboard() {
                   <XAxis type="number" stroke="rgba(255,255,255,0.4)" fontSize={12} tickFormatter={(val) => `GH₵${val/100}`} />
                   <YAxis type="category" dataKey="name" stroke="rgba(255,255,255,0.8)" fontSize={12} />
                   <RechartsTooltip 
-                    contentStyle={{ backgroundColor: '#120e0a', borderColor: 'rgba(201,169,110,0.3)', color: '#f5f0e8' }}
+                    contentStyle={{ backgroundColor: '#120e0a', borderColor: 'rgba(108,132,128,0.3)', color: '#f5f0e8' }}
                     formatter={(value: any) => [formatCurrency(value || 0), 'Revenue']}
                   />
-                  <Bar dataKey="total_revenue" fill="#d8bd8a" radius={[0, 4, 4, 0]}>
+                  <Bar dataKey="total_revenue" fill="#6c8480" radius={[0, 4, 4, 0]}>
                     {data.topProducts.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}

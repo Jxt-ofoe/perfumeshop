@@ -80,7 +80,7 @@ export default function ProductsPage() {
       </div>
 
       <div className="admin-card" style={{ padding: '0' }}>
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(201,169,110,0.1)' }}>
+        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(108,132,128,0.1)' }}>
           <input 
             type="text" 
             placeholder="Search products by name or slug..." 
@@ -88,7 +88,7 @@ export default function ProductsPage() {
             onChange={(e) => setSearch(e.target.value)}
             style={{
               width: '100%', maxWidth: '400px', padding: '0.75rem',
-              background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,169,110,0.2)',
+              background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(108,132,128,0.2)',
               color: 'white', borderRadius: '4px'
             }}
           />
@@ -97,7 +97,7 @@ export default function ProductsPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ background: 'rgba(201,169,110,0.05)', color: 'var(--color-gold)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+              <tr style={{ background: 'rgba(108,132,128,0.05)', color: 'var(--color-gold)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                 <th style={{ padding: '1rem' }}>Name</th>
                 <th style={{ padding: '1rem' }}>Scent Family</th>
                 <th style={{ padding: '1rem' }}>Price (GH₵)</th>
@@ -127,7 +127,7 @@ export default function ProductsPage() {
                     <td style={{ padding: '1rem' }}>
                       <span style={{ 
                         padding: '0.25rem 0.5rem', borderRadius: '12px', fontSize: '0.75rem',
-                        background: p.featured ? 'rgba(201,169,110,0.1)' : 'rgba(255,255,255,0.05)',
+                        background: p.featured ? 'rgba(108,132,128,0.1)' : 'rgba(255,255,255,0.05)',
                         color: p.featured ? 'var(--color-gold)' : 'white'
                       }}>
                         {p.featured ? 'Featured' : 'Standard'}
@@ -135,7 +135,7 @@ export default function ProductsPage() {
                     </td>
                     <td style={{ padding: '1rem', textAlign: 'right' }}>
                       <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                        <button onClick={() => openEditModal(p)} style={{ background: 'rgba(201,169,110,0.1)', color: 'var(--color-gold)', border: 'none', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer' }}>
+                        <button onClick={() => openEditModal(p)} style={{ background: 'rgba(108,132,128,0.1)', color: 'var(--color-gold)', border: 'none', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer' }}>
                           <Edit2 size={16} />
                         </button>
                         <button onClick={() => handleDelete(p.id)} style={{ background: 'rgba(255,50,50,0.1)', color: '#ff6b6b', border: 'none', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer' }}>

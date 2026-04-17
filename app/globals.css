@@ -8,10 +8,10 @@
   --color-charcoal: #120e0a;
   --color-deep: #080604;
   --color-ivory: #f5f0e8;
-  --color-gold: #c9a96e;
-  --color-gold-soft: rgba(201, 169, 110, 0.12);
-  --color-gold-border: rgba(201, 169, 110, 0.2);
-  --color-gold-glow: rgba(201, 169, 110, 0.05);
+  --color-gold: #6c8480;
+  --color-gold-soft: rgba(108, 132, 128, 0.12);
+  --color-gold-border: rgba(108, 132, 128, 0.2);
+  --color-gold-glow: rgba(108, 132, 128, 0.05);
   --color-text-muted: rgba(245, 240, 232, 0.6);
   --color-text-soft: rgba(245, 240, 232, 0.8);
   --color-text-faint: rgba(245, 240, 232, 0.3);
@@ -28,7 +28,7 @@
   --radius-full: 50px;
 
   --shadow-card: 0 15px 40px rgba(0, 0, 0, 0.3);
-  --shadow-gold: 0 15px 40px rgba(201, 169, 110, 0.05);
+  --shadow-gold: 0 15px 40px rgba(108, 132, 128, 0.05);
 
   --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --transition-fast: all 0.3s ease;
@@ -214,7 +214,7 @@ input, textarea, select {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: padding 0.3s ease, box-shadow 0.3s ease;
-  border-bottom: 1px solid rgba(201, 169, 110, 0.05);
+  border-bottom: 1px solid rgba(108, 132, 128, 0.05);
 }
 
 .navbar.scrolled {
@@ -374,7 +374,7 @@ input, textarea, select {
 
 .product-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(201, 169, 110, 0.5);
+  border-color: rgba(108, 132, 128, 0.5);
   box-shadow: var(--shadow-gold);
 }
 
@@ -394,7 +394,7 @@ input, textarea, select {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(201, 169, 110, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle at top, rgba(108, 132, 128, 0.1) 0%, transparent 70%);
 }
 
 .product-card-image img {
@@ -467,7 +467,7 @@ input, textarea, select {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at center, rgba(201, 169, 110, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at center, rgba(108, 132, 128, 0.05) 0%, transparent 60%),
     url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   z-index: 0;
 }
@@ -1054,7 +1054,7 @@ input, textarea, select {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top center, rgba(201, 169, 110, 0.08) 0%, transparent 60%);
+  background: radial-gradient(circle at top center, rgba(108, 132, 128, 0.08) 0%, transparent 60%);
 }
 
 .product-detail-image img {
