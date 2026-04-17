@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useCart } from '@/lib/store/cart-context';
-import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import type { OrderSelect, OrderItemSelect } from '@/lib/db/schema';
 
@@ -24,24 +23,135 @@ export default function OrderConfirmationClient({
 }: OrderConfirmationClientProps) {
   const { clearCart } = useCart();
   const verifiedRef = useRef(false);
-  const receiptRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const downloadReceipt = async () => {
-    if (!receiptRef.current) return;
+  const downloadReceipt = () => {
     setIsDownloading(true);
     try {
-      const canvas = await html2canvas(receiptRef.current, {
-        scale: 2, // higher resolution
-        backgroundColor: '#120e0a' // match theme dark background
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const margin = 20;
+      const pageW = 210;
+      const contentW = pageW - margin * 2;
+      let y = margin;
+
+      const gold: [number, number, number] = [201, 169, 110];
+      const black: [number, number, number] = [10, 8, 5];
+      const grey: [number, number, number] = [100, 95, 90];
+
+      // Header background
+      pdf.setFillColor(...black);
+      pdf.rect(0, 0, pageW, 40, 'F');
+
+      // Brand name
+      pdf.setFont('times', 'italic');
+      pdf.setFontSize(28);
+      pdf.setTextColor(...gold);
+      pdf.text('VELOUR', pageW / 2, 22, { align: 'center' });
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8);
+      pdf.setTextColor(245, 240, 232);
+      pdf.text('PARIS — LUXURY FRAGRANCE', pageW / 2, 30, { align: 'center' });
+
+      y = 50;
+
+      // Order reference
+      pdf.setFontSize(9);
+      pdf.setTextColor(...grey);
+      pdf.text('ORDER REFERENCE', margin, y);
+      pdf.setFontSize(11);
+      pdf.setTextColor(...black);
+      pdf.text(order.reference, margin, y + 6);
+
+      // Date (right side)
+      const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+      pdf.setFontSize(9);
+      pdf.setTextColor(...grey);
+      pdf.text('DATE', pageW - margin, y, { align: 'right' });
+      pdf.setFontSize(11);
+      pdf.setTextColor(...black);
+      pdf.text(dateStr, pageW - margin, y + 6, { align: 'right' });
+
+      y += 20;
+
+      // Divider
+      pdf.setDrawColor(...gold);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, y, pageW - margin, y);
+      y += 10;
+
+      // Items table header
+      pdf.setFillColor(245, 242, 238);
+      pdf.rect(margin, y, contentW, 8, 'F');
+      pdf.setFontSize(8);
+      pdf.setTextColor(...grey);
+      pdf.text('ITEM', margin + 3, y + 5.5);
+      pdf.text('QTY', margin + contentW * 0.65, y + 5.5, { align: 'center' });
+      pdf.text('PRICE', pageW - margin - 3, y + 5.5, { align: 'right' });
+      y += 12;
+
+      // Items rows
+      items.forEach((item, i) => {
+        if (i % 2 === 0) {
+          pdf.setFillColor(252, 251, 249);
+          pdf.rect(margin, y - 3, contentW, 9, 'F');
+        }
+        pdf.setFontSize(10);
+        pdf.setTextColor(30, 25, 20);
+        pdf.text(item.productName, margin + 3, y + 3);
+        pdf.setTextColor(...grey);
+        pdf.text(String(item.quantity), margin + contentW * 0.65, y + 3, { align: 'center' });
+        pdf.setTextColor(30, 25, 20);
+        pdf.text(`GH₵${(item.price * item.quantity / 100).toFixed(2)}`, pageW - margin - 3, y + 3, { align: 'right' });
+        y += 10;
       });
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: [canvas.width, canvas.height]
-      });
-      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+
+      // Total row
+      y += 2;
+      pdf.setDrawColor(...gold);
+      pdf.line(margin, y, pageW - margin, y);
+      y += 6;
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(12);
+      pdf.setTextColor(...black);
+      pdf.text('TOTAL', margin + 3, y + 3);
+      pdf.setTextColor(...gold);
+      pdf.text(`GH₵${(order.totalAmount / 100).toFixed(2)}`, pageW - margin - 3, y + 3, { align: 'right' });
+      y += 16;
+
+      // Delivery details box
+      pdf.setFont('helvetica', 'normal');
+      pdf.setDrawColor(220, 215, 205);
+      pdf.setLineWidth(0.3);
+      pdf.rect(margin, y, contentW, 38);
+      pdf.setFontSize(8);
+      pdf.setTextColor(...grey);
+      pdf.text('DELIVERY DETAILS', margin + 4, y + 7);
+      pdf.setFontSize(10);
+      pdf.setTextColor(30, 25, 20);
+      pdf.text(`${order.firstName} ${order.lastName}`, margin + 4, y + 15);
+      pdf.text(order.address, margin + 4, y + 22);
+      pdf.text(`${order.city}, ${order.state}`, margin + 4, y + 29);
+      pdf.text(order.phone, margin + 4, y + 36);
+      y += 48;
+
+      // Footer note
+      pdf.setFontSize(8.5);
+      pdf.setTextColor(...grey);
+      pdf.text(`Receipt sent to: ${order.email}`, pageW / 2, y, { align: 'center' });
+      y += 6;
+      pdf.text('Estimated delivery: 3–5 business days', pageW / 2, y, { align: 'center' });
+      y += 12;
+
+      // Bottom border
+      pdf.setDrawColor(...gold);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, y, pageW - margin, y);
+      y += 6;
+      pdf.setFontSize(7);
+      pdf.setTextColor(...grey);
+      pdf.text('© VELOUR PARIS. ALL RIGHTS RESERVED.', pageW / 2, y, { align: 'center' });
+
       pdf.save(`Velour_Receipt_${order.reference}.pdf`);
     } catch (error) {
       console.error('Failed to generate PDF', error);
@@ -135,7 +245,6 @@ export default function OrderConfirmationClient({
       </motion.div>
 
       <motion.div
-        ref={receiptRef}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
