@@ -44,9 +44,8 @@ export async function POST(request: Request) {
     }
 
     // MOCK PAYSTACK INITIALIZATION
-    // Instead of calling Paystack, we'll mimic a successful response and 
-    // redirect the user directly to our order confirmation page to simulate a "completed checkout"
-    const mockAuthorizationUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/order-confirmation?ref=${reference}`;
+    const origin = new URL(request.url).origin;
+    const mockAuthorizationUrl = `${origin}/order-confirmation?ref=${reference}`;
 
     return NextResponse.json({
       authorization_url: mockAuthorizationUrl,

@@ -1487,6 +1487,35 @@ input, textarea, select {
   margin-bottom: 1rem;
 }
 
+/* ── Print Styles ── */
+@media print {
+  .no-print { display: none !important; }
+  body {
+    background: white !important;
+    color: black !important;
+    background-image: none !important;
+  }
+  .navbar, .footer { display: none !important; }
+  .confirmation-page {
+    padding: 2rem !important;
+    justify-content: flex-start !important;
+  }
+  .confirmation-checkmark { border-color: black !important; }
+  .confirmation-checkmark svg { color: black !important; }
+  .confirmation-title, .confirmation-ref { color: black !important; }
+  .confirmation-table th { color: black !important; border-bottom-color: black !important; }
+  .confirmation-table td { border-bottom-color: #ccc !important; color: black !important; }
+  .confirmation-delivery { border-color: black !important; background: white !important; }
+  .confirmation-delivery h3 { color: black !important; }
+  .confirmation-delivery p { color: black !important; }
+  .confirmation-email-note, .confirmation-estimate { color: #555 !important; }
+  [style*="background: #120e0a"] {
+    background: white !important;
+    border-color: #ccc !important;
+  }
+  [style*="color: var(--color-gold)"] { color: black !important; }
+}
+
 /* ── Page transitions ── */
 @keyframes fadeUp {
   from {

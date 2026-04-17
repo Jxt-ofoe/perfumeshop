@@ -180,10 +180,13 @@ export default function OrderConfirmationClient({
       </motion.div>
 
       <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <button onClick={downloadReceipt} disabled={isDownloading} className="btn-gold" style={{ background: 'transparent', border: '1px solid var(--color-gold)', color: 'var(--color-gold)', minWidth: '200px' }}>
+        <button onClick={downloadReceipt} disabled={isDownloading} className="btn-gold no-print" style={{ background: 'transparent', border: '1px solid var(--color-gold)', color: 'var(--color-gold)', minWidth: '200px' }}>
           {isDownloading ? 'Generating PDF...' : 'Download Receipt'}
         </button>
-        <Link href="/collection" className="btn-gold" style={{ minWidth: '200px', display: 'flex', justifyContent: 'center' }}>
+        <button onClick={() => window.print()} className="btn-gold no-print" style={{ background: 'transparent', border: '1px solid var(--color-gold)', color: 'var(--color-gold)', minWidth: '200px' }}>
+          Print Receipt
+        </button>
+        <Link href="/collection" className="btn-gold no-print" style={{ minWidth: '200px', display: 'flex', justifyContent: 'center' }}>
           Continue Shopping
         </Link>
       </div>
