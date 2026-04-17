@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     }
 
     if (password !== process.env.ADMIN_PASSWORD) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      return NextResponse.json({ error: 'What the fuck do you want here??😡😡🙄🙄' }, { status: 401 });
     }
 
     // Passwords match, issue JWT

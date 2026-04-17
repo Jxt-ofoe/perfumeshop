@@ -20,7 +20,7 @@ export const OrderConfirmationEmail: React.FC<OrderConfirmationEmailProps> = ({
   return (
     <div style={{ fontFamily: 'Jost, sans-serif', color: '#0a0805', maxWidth: '600px', margin: '0 auto', border: '1px solid #e0d5c1' }}>
       <div style={{ backgroundColor: '#0a0805', padding: '30px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#c9a96e', letterSpacing: '0.2em', textTransform: 'uppercase', margin: 0, fontWeight: 400 }}>
+        <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#6c8480', letterSpacing: '0.2em', textTransform: 'uppercase', margin: 0, fontWeight: 400 }}>
           VELOUR
         </h1>
       </div>
@@ -35,7 +35,7 @@ export const OrderConfirmationEmail: React.FC<OrderConfirmationEmailProps> = ({
         </p>
 
         <div style={{ marginTop: '40px', marginBottom: '40px' }}>
-          <h3 style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a96e', borderBottom: '1px solid #e0d5c1', paddingBottom: '10px' }}>
+          <h3 style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6c8480', borderBottom: '1px solid #e0d5c1', paddingBottom: '10px' }}>
             Order Details
           </h3>
           
@@ -57,13 +57,13 @@ export const OrderConfirmationEmail: React.FC<OrderConfirmationEmailProps> = ({
               ))}
               <tr>
                 <td colSpan={2} style={{ padding: '20px 0 0', fontWeight: 'bold' }}>Total</td>
-                <td style={{ padding: '20px 0 0', fontWeight: 'bold', textAlign: 'right', color: '#c9a96e' }}>{formatPrice(totalAmount)}</td>
+                <td style={{ padding: '20px 0 0', fontWeight: 'bold', textAlign: 'right', color: '#6c8480' }}>{formatPrice(totalAmount)}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div style={{ backgroundColor: '#f5f0e8', padding: '20px', borderLeft: '3px solid #c9a96e' }}>
+        <div style={{ backgroundColor: '#f5f0e8', padding: '20px', borderLeft: '3px solid #6c8480' }}>
           <h3 style={{ fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8a847a', margin: '0 0 10px 0' }}>
             Delivery To
           </h3>

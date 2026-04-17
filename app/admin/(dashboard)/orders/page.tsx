@@ -75,7 +75,7 @@ export default function OrdersPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'paid': return '#c9a96e'; // gold
+      case 'paid': return '#6c8480';
       case 'pending': return 'rgba(255,255,255,0.5)';
       case 'shipped': return '#4ade80'; // green
       case 'delivered': return '#3b82f6'; // blue
@@ -91,7 +91,7 @@ export default function OrdersPage() {
       </div>
 
       <div className="admin-card" style={{ padding: '0' }}>
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(201,169,110,0.1)', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(108,132,128,0.1)', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           <input 
             type="text" 
             placeholder="Search reference, name, or email..." 
@@ -99,7 +99,7 @@ export default function OrdersPage() {
             onChange={(e) => setSearch(e.target.value)}
             style={{
               flex: 1, minWidth: '250px', padding: '0.75rem',
-              background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,169,110,0.2)',
+              background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(108,132,128,0.2)',
               color: 'white', borderRadius: '4px'
             }}
           />
@@ -108,7 +108,7 @@ export default function OrdersPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             style={{
               padding: '0.75rem', background: 'rgba(255,255,255,0.02)', 
-              border: '1px solid rgba(201,169,110,0.2)', color: 'white', borderRadius: '4px'
+              border: '1px solid rgba(108,132,128,0.2)', color: 'white', borderRadius: '4px'
             }}
           >
             <option value="all">All Statuses</option>
@@ -123,7 +123,7 @@ export default function OrdersPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ background: 'rgba(201,169,110,0.05)', color: 'var(--color-gold)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+              <tr style={{ background: 'rgba(108,132,128,0.05)', color: 'var(--color-gold)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                 <th style={{ padding: '1rem' }}>Order Ref</th>
                 <th style={{ padding: '1rem' }}>Date</th>
                 <th style={{ padding: '1rem' }}>Customer</th>
@@ -158,7 +158,7 @@ export default function OrdersPage() {
                       </span>
                     </td>
                     <td style={{ padding: '1rem', textAlign: 'right' }}>
-                      <button onClick={() => openOrderDetails(o)} style={{ background: 'rgba(201,169,110,0.1)', color: 'var(--color-gold)', border: 'none', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer' }}>
+                      <button onClick={() => openOrderDetails(o)} style={{ background: 'rgba(108,132,128,0.1)', color: 'var(--color-gold)', border: 'none', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer' }}>
                         <Eye size={16} />
                       </button>
                     </td>
@@ -178,10 +178,10 @@ export default function OrdersPage() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem'
         }}>
           <div style={{
-            background: '#120e0a', borderRadius: '8px', border: '1px solid rgba(201,169,110,0.3)',
+            background: '#120e0a', borderRadius: '8px', border: '1px solid rgba(108,132,128,0.3)',
             width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid rgba(201,169,110,0.1)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid rgba(108,132,128,0.1)' }}>
               <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.5rem', color: 'var(--color-gold)' }}>
                 Order Details
               </h2>
@@ -209,7 +209,7 @@ export default function OrdersPage() {
                        onChange={(e) => updateOrderStatus(e.target.value)}
                        style={{
                          padding: '0.4rem 0.8rem', background: '#0a0805', 
-                         border: '1px solid rgba(201,169,110,0.5)', color: getStatusColor(selectedOrder.status), 
+                         border: '1px solid rgba(108,132,128,0.5)', color: getStatusColor(selectedOrder.status), 
                          borderRadius: '4px', cursor: 'pointer', textTransform: 'capitalize'
                        }}
                      >
