@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const { password } = await request.json();
 
     if (!password) {
-      return NextResponse.json({ error: 'Password is required' }, { status: 400 });
+      return NextResponse.json({ error: 'Input your fuking password here' }, { status: 400 });
     }
 
     if (password !== process.env.ADMIN_PASSWORD) {
