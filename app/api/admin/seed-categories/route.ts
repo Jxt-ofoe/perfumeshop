@@ -1,7 +1,6 @@
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' });
-import { db } from './index';
-import { categorySettings } from './schema';
+import { NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { categorySettings } from '@/lib/db/schema';
 
 const initialSettings = [
   // Categories (Concentrations)
@@ -65,21 +64,24 @@ const initialSettings = [
   },
 ];
 
-async function seed() {
-  console.log('🌱 Seeding category settings...');
+export async function POST() {
+  try {
+    // Clear existing categories
+    await db.delete(categorySettings);
 
-  await db.delete(categorySettings);
+    // Insert new categories
+    for (const setting of initialSettings) {
+      await db.insert(categorySettings).values(setting);
+    }
 
-  for (const setting of initialSettings) {
-    await db.insert(categorySettings).values(setting);
-    console.log(`  ✓ Added: ${setting.name}`);
+    return NextResponse.json({ 
+      success: true, 
+      message: `Successfully seeded ${initialSettings.length} categories including Mini Perfumes` 
+    });
+  } catch (error) {
+    console.error('Error seeding categories:', error);
+    return NextResponse.json({ 
+      error: 'Failed to seed categories' 
+    }, { status: 500 });
   }
-
-  console.log(`\n✅ Successfully seeded ${initialSettings.length} categories/families.`);
-  process.exit(0);
 }
-
-seed().catch((err) => {
-  console.error('❌ Seed failed:', err);
-  process.exit(1);
-});

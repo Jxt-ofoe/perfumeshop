@@ -90,7 +90,7 @@ export async function POST(request: Request) {
       heartNotes: body.heartNotes || '',
       baseNotes: body.baseNotes || '',
       size: body.size || '100ml',
-      featured: body.featured || false,
+      featured: body.featured !== undefined ? body.featured : true,
     }).returning();
 
     revalidatePath('/');

@@ -34,6 +34,40 @@ export default function ProductsPage() {
     }
   };
 
+  const handleSeedCategories = async () => {
+    if (!confirm('Seed category settings? This will reset all categories.')) return;
+    
+    try {
+      const res = await fetch('/api/admin/seed-categories', { method: 'POST' });
+      const data = await res.json();
+      
+      if (res.ok) {
+        toast.success('Categories seeded successfully');
+      } else {
+        toast.error(data.error || 'Failed to seed categories');
+      }
+    } catch {
+      toast.error('Network Error');
+    }
+  };
+
+  const handleFeatureAll = async () => {
+    if (!confirm('Mark all products as featured on homepage?')) return;
+    
+    try {
+      const res = await fetch('/api/admin/feature-all', { method: 'POST' });
+      const data = await res.json();
+      
+      if (res.ok) {
+        toast.success('All products are now featured on homepage');
+        fetchProducts();
+      } else {
+        toast.error(data.error || 'Failed to update products');
+      }
+    } catch {
+      toast.error('Network Error');
+    }
+  };
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     
@@ -66,17 +100,41 @@ export default function ProductsPage() {
     <div>
       <div className="admin-header">
         <h1 className="admin-title">Products Inventory</h1>
-        <button 
-          onClick={openNewModal}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '0.5rem',
-            background: 'var(--color-gold)', color: 'black',
-            border: 'none', padding: '0.5rem 1rem', borderRadius: '4px',
-            cursor: 'pointer', fontWeight: 500
-          }}
-        >
-          <Plus size={18} /> New Product
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button 
+            onClick={handleSeedCategories}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              background: 'rgba(100,100,255,0.1)', color: '#8888ff',
+              border: '1px solid rgba(100,100,255,0.3)', padding: '0.5rem 1rem', borderRadius: '4px',
+              cursor: 'pointer', fontWeight: 500, fontSize: '0.9rem'
+            }}
+          >
+            Seed Categories
+          </button>
+          <button 
+            onClick={handleFeatureAll}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              background: 'rgba(201,169,110,0.1)', color: 'var(--color-gold)',
+              border: '1px solid rgba(201,169,110,0.3)', padding: '0.5rem 1rem', borderRadius: '4px',
+              cursor: 'pointer', fontWeight: 500, fontSize: '0.9rem'
+            }}
+          >
+            Feature All on Homepage
+          </button>
+          <button 
+            onClick={openNewModal}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              background: 'var(--color-gold)', color: 'black',
+              border: 'none', padding: '0.5rem 1rem', borderRadius: '4px',
+              cursor: 'pointer', fontWeight: 500
+            }}
+          >
+            <Plus size={18} /> New Product
+          </button>
+        </div>
       </div>
 
       <div className="admin-card" style={{ padding: '0' }}>

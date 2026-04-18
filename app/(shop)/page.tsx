@@ -25,7 +25,7 @@ export default async function HomePage() {
       .select()
       .from(products)
       .where(eq(products.featured, true))
-      .limit(6);
+      .limit(12);
   } catch {
     featuredProducts = [];
   }
