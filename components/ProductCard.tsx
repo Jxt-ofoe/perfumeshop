@@ -57,18 +57,6 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
 
       <h3 className="product-card-name">{product.name}</h3>
 
-      <div className="product-card-notes">
-        <div>
-          <span>Top</span> {product.topNotes}
-        </div>
-        <div>
-          <span>Heart</span> {product.heartNotes}
-        </div>
-        <div>
-          <span>Base</span> {product.baseNotes}
-        </div>
-      </div>
-
       <div className="product-card-footer">
         <span className="product-card-price">{formatPrice(product.price)}</span>
         <button className="btn-add" onClick={handleAddToCart} id={`add-to-cart-${product.slug}`}>
