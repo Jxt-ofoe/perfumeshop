@@ -7,7 +7,7 @@ import {
 } from 'recharts';
 import { toast } from 'sonner';
 
-const COLORS = ['#c9a96e', '#d8bd8a', '#ead5b1', '#f5f0e8', '#ffffff'];
+const COLORS = ['#c9a96e', '#e5ca99', '#ead5b1', '#f5f0e8', '#ffffff'];
 
 export default function AdminDashboard() {
   const [data, setData] = useState<any>(null);
