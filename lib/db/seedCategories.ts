@@ -19,6 +19,13 @@ const initialSettings = [
     type: 'category',
     displayOrder: 2,
   },
+  {
+    name: 'Mini Perfumes',
+    slug: 'mini-perfumes',
+    description: 'Perfectly sized luxury fragrances for travel, gifting, or discovering new scents.',
+    type: 'category',
+    displayOrder: 3,
+  },
 
   // Scent Families
   {

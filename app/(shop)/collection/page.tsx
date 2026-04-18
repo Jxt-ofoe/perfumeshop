@@ -7,7 +7,7 @@ import ProductCard from '@/components/ProductCard';
 import FilterDrawer from '@/components/FilterDrawer';
 import type { Product } from '@/lib/types';
 
-const CATEGORIES = ['Eau de Parfum', 'Extrait de Parfum'];
+const CATEGORIES = ['Eau de Parfum', 'Extrait de Parfum', 'Mini Perfumes'];
 const SCENT_FAMILIES = ['Floral', 'Woody', 'Oriental', 'Fresh', 'Gourmand'];
 
 export default function CollectionPage() {

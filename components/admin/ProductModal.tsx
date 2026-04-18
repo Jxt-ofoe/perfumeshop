@@ -146,11 +146,23 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div>
               <label style={labelStyle}>Category</label>
-              <input required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} placeholder="e.g. Eau de Parfum" style={inputStyle} />
+              <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} style={inputStyle}>
+                <option value="">Select Category</option>
+                <option value="Eau de Parfum">Eau de Parfum</option>
+                <option value="Extrait de Parfum">Extrait de Parfum</option>
+                <option value="Mini Perfumes">Mini Perfumes</option>
+              </select>
             </div>
             <div>
               <label style={labelStyle}>Scent Family</label>
-              <input required value={formData.scentFamily} onChange={e => setFormData({...formData, scentFamily: e.target.value})} placeholder="e.g. Floral" style={inputStyle} />
+              <select required value={formData.scentFamily} onChange={e => setFormData({...formData, scentFamily: e.target.value})} style={inputStyle}>
+                <option value="">Select Scent Family</option>
+                <option value="Floral">Floral</option>
+                <option value="Woody">Woody</option>
+                <option value="Oriental">Oriental</option>
+                <option value="Fresh">Fresh</option>
+                <option value="Gourmand">Gourmand</option>
+              </select>
             </div>
           </div>
 
