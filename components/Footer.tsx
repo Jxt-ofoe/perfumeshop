@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-logo">VELOUR</div>
+      <div className="footer-logo">CHARLENE LUXE</div>
       <ul className="footer-links">
         <li>
           <Link href="/collection">Collection</Link>
@@ -19,7 +19,7 @@ export default function Footer() {
         </li>
       </ul>
       <div className="footer-copyright">
-        © {new Date().getFullYear()} VELOUR PARIS. ALL RIGHTS RESERVED.
+        © {new Date().getFullYear()} CHARLENE LUXE. ALL RIGHTS RESERVED.
       </div>
     </footer>
   );

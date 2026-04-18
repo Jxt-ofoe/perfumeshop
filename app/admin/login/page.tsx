@@ -22,7 +22,7 @@ export default function AdminLoginPage() {
 
       if (res.ok) {
         toast.success('Authentication successful', {
-          description: 'Welcome to the Velour Admin Dashboard.',
+          description: 'Welcome to the Charlene Luxe Admin Dashboard.',
         });
         router.push('/admin');
         router.refresh(); // Force a refresh to update the middleware state
@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
           maxWidth: '400px',
           padding: '3rem 2rem',
           background: '#120e0a',
-          border: '1px solid rgba(124,58,237,0.2)',
+          border: '1px solid rgba(201,169,110,0.2)',
           borderRadius: '8px',
           textAlign: 'center',
         }}
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
           style={{
             fontFamily: 'var(--font-cormorant)',
             fontSize: '2rem',
-            color: '#7c3aed',
+            color: '#c9a96e',
             letterSpacing: '0.1em',
             marginBottom: '0.5rem',
           }}
@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
                 fontSize: '0.8rem',
                 letterSpacing: '0.05em',
                 textTransform: 'uppercase',
-                color: '#7c3aed',
+                color: '#c9a96e',
               }}
             >
               Access Code
@@ -104,14 +104,14 @@ export default function AdminLoginPage() {
                 width: '100%',
                 padding: '0.75rem 1rem',
                 background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(124,58,237,0.3)',
+                border: '1px solid rgba(201,169,110,0.3)',
                 color: '#f5f0e8',
                 fontFamily: 'inherit',
                 outline: 'none',
                 transition: 'border-color 0.2s',
               }}
-              onFocus={(e) => (e.target.style.borderColor = '#7c3aed')}
-              onBlur={(e) => (e.target.style.borderColor = 'rgba(124,58,237,0.3)')}
+              onFocus={(e) => (e.target.style.borderColor = '#c9a96e')}
+              onBlur={(e) => (e.target.style.borderColor = 'rgba(201,169,110,0.3)')}
             />
           </div>
 
@@ -120,7 +120,7 @@ export default function AdminLoginPage() {
             disabled={loading}
             style={{
               padding: '0.8rem',
-              background: '#7c3aed',
+              background: '#c9a96e',
               color: '#0a0805',
               border: 'none',
               fontWeight: 500,
@@ -132,10 +132,10 @@ export default function AdminLoginPage() {
               marginTop: '0.5rem',
             }}
             onMouseOver={(e) => {
-              if (!loading) e.currentTarget.style.background = '#9d6ef5';
+              if (!loading) e.currentTarget.style.background = '#d8bd8a';
             }}
             onMouseOut={(e) => {
-              if (!loading) e.currentTarget.style.background = '#7c3aed';
+              if (!loading) e.currentTarget.style.background = '#c9a96e';
             }}
           >
             {loading ? 'Authenticating...' : 'Enter System'}

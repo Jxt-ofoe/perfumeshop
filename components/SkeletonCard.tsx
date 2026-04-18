@@ -13,7 +13,7 @@ export default function SkeletonCard() {
           justifyContent: 'space-between',
           marginTop: '1rem',
           paddingTop: '1rem',
-          borderTop: '1px solid rgba(124,58,237,0.1)',
+          borderTop: '1px solid rgba(201,169,110,0.1)',
         }}
       >
         <div className="skeleton skeleton-text" style={{ width: '60px' }} />

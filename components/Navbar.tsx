@@ -46,7 +46,7 @@ export default function Navbar() {
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="main-navbar">
         <Link href="/" className="navbar-logo">
-          Velour
+          Charlene Luxe
         </Link>
 
         <ul className="navbar-links">

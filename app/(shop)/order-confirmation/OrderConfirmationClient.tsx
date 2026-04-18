@@ -46,7 +46,7 @@ export default function OrderConfirmationClient({
       pdf.setFont('times', 'italic');
       pdf.setFontSize(28);
       pdf.setTextColor(...gold);
-      pdf.text('VELOUR', pageW / 2, 22, { align: 'center' });
+      pdf.text('CHARLENE LUXE', pageW / 2, 22, { align: 'center' });
 
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
@@ -150,9 +150,9 @@ export default function OrderConfirmationClient({
       y += 6;
       pdf.setFontSize(7);
       pdf.setTextColor(...grey);
-      pdf.text('© VELOUR PARIS. ALL RIGHTS RESERVED.', pageW / 2, y, { align: 'center' });
+      pdf.text('© CHARLENE LUXE PARIS. ALL RIGHTS RESERVED.', pageW / 2, y, { align: 'center' });
 
-      pdf.save(`Velour_Receipt_${order.reference}.pdf`);
+      pdf.save(`CHARLENE LUXE_Receipt_${order.reference}.pdf`);
     } catch (error) {
       console.error('Failed to generate PDF', error);
     } finally {
@@ -164,7 +164,7 @@ export default function OrderConfirmationClient({
     clearCart();
 
     const triggerConfetti = () => {
-      const colors = ['#7c3aed', '#f0f0ff', '#ffffff'];
+      const colors = ['#c9a96e', '#f5f0e8', '#ffffff'];
 
       confetti({
         particleCount: 100,
@@ -248,10 +248,10 @@ export default function OrderConfirmationClient({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        style={{ width: '100%', padding: '2rem', background: '#0d0d1f', borderRadius: '8px', border: '1px solid rgba(124,58,237,0.1)' }}
+        style={{ width: '100%', padding: '2rem', background: '#120e0a', borderRadius: '8px', border: '1px solid rgba(201,169,110,0.1)' }}
       >
         <div style={{ textAlign: 'center', marginBottom: '2rem', fontFamily: 'var(--font-cormorant)', color: 'var(--color-gold)', fontSize: '1.5rem' }}>
-          VELOUR
+          CHARLENE LUXE
         </div>
         <table className="confirmation-table">
           <thead>

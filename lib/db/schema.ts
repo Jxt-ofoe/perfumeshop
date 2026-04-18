@@ -6,13 +6,13 @@ export const products = sqliteTable('products', {
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
   description: text('description').notNull(),
-  price: integer('price').notNull(), // in kobo (smallest currency unit)
+  price: integer('price').notNull(),
   image: text('image').notNull().default('/images/bottle-placeholder.jpg'),
-  category: text('category').notNull(), // Eau de Parfum, Extrait de Parfum
-  scentFamily: text('scent_family').notNull(), // Floral, Woody, Oriental, Fresh, Gourmand
-  topNotes: text('top_notes').notNull(),
-  heartNotes: text('heart_notes').notNull(),
-  baseNotes: text('base_notes').notNull(),
+  category: text('category').notNull().default(''),
+  scentFamily: text('scent_family').notNull().default(''),
+  topNotes: text('top_notes').notNull().default(''),
+  heartNotes: text('heart_notes').notNull().default(''),
+  baseNotes: text('base_notes').notNull().default(''),
   size: text('size').notNull().default('100ml'),
   featured: integer('featured', { mode: 'boolean' }).notNull().default(false),
   createdAt: text('created_at').notNull().default(sql`(datetime('now'))`),

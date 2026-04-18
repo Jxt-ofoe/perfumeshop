@@ -21,7 +21,7 @@ export default function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.6 }}
       >
-        Discover artisanal French perfumery
+        Discover luxury fragrances from Ghana
       </motion.p>
 
       <motion.div

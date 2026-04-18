@@ -13,9 +13,9 @@ import NewsletterSection from './sections/NewsletterSection';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'VELOUR | Luxury Fragrance — Artisanal French Perfumery',
+  title: 'Charlene Luxe | Luxury Fragrance',
   description:
-    'Discover artisanal French perfumery. Hand-crafted luxury fragrances from the heart of Grasse, France.',
+    'Discover luxury fragrances from the heart of Ghana. Hand-crafted scents for the discerning.',
 };
 
 export default async function HomePage() {

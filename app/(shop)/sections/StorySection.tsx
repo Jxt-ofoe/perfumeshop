@@ -25,8 +25,8 @@ export default function StorySection() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <p>
-            Born in the heart of Grasse, France, Velour represents the pinnacle
-            of artisanal perfumery. Our master noses blend the rarest ingredients
+            Born in the heart of Ghana, Charlene Luxe represents the pinnacle
+            of artisanal perfumery. Our master noses blend the finest ingredients
             sourced from around the globe, creating olfactive journeys that
             transcend time.
           </p>

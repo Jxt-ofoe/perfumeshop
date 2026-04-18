@@ -20,22 +20,22 @@ const jost = Jost({
 
 export const metadata: Metadata = {
   title: {
-    default: 'VELOUR | Luxury Fragrance',
-    template: '%s | VELOUR',
+    default: 'Charlene Luxe | Luxury Fragrance',
+    template: '%s | Charlene Luxe',
   },
   description:
-    'Discover artisanal French perfumery. Hand-crafted luxury fragrances from the heart of Grasse, France. Each flacon is a testament to heritage and avant-garde composition.',
+    'Discover luxury fragrances from the heart of Ghana. Hand-crafted scents for the discerning. Each flacon is a testament to heritage and avant-garde composition.',
   keywords: [
     'luxury perfume',
     'artisanal fragrance',
-    'French perfumery',
+    'luxury fragrance',
     'niche perfume',
-    'Grasse',
+    'Ghana',
     'eau de parfum',
   ],
   openGraph: {
-    title: 'VELOUR | Luxury Fragrance',
-    description: 'Discover artisanal French perfumery from the heart of Grasse.',
+    title: 'Charlene Luxe | Luxury Fragrance',
+    description: 'Discover artisanal luxury fragrance from the heart of Grasse.',
     type: 'website',
     locale: 'en_US',
   },
@@ -55,7 +55,7 @@ export default function RootLayout({
           toastOptions={{
             style: {
               background: '#120e0a',
-              border: '1px solid rgba(124,58,237,0.2)',
+              border: '1px solid rgba(201,169,110,0.2)',
               color: '#f5f0e8',
               fontFamily: 'var(--font-body)',
             },

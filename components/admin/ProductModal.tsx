@@ -12,35 +12,34 @@ interface ProductModalProps {
   onSuccess: () => void;
 }
 
+function generateSlug(name: string) {
+  return name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+const inputStyle = { width: '100%', padding: '0.6rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '4px' };
+const labelStyle = { display: 'block', marginBottom: '0.4rem', fontSize: '0.78rem', color: 'var(--color-gold)', textTransform: 'uppercase' as const, letterSpacing: '0.1em' };
+
 export default function ProductModal({ product, isOpen, onClose, onSuccess }: ProductModalProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    slug: '',
-    description: '',
-    price: '',
-    image: '',
-    category: 'Eau de Parfum',
-    scentFamily: 'Floral',
-    topNotes: '',
-    heartNotes: '',
-    baseNotes: '',
-    size: '100ml',
-    featured: false,
+    name: '', description: '', price: '', image: '',
+    category: '', scentFamily: '', size: '', featured: false,
   });
 
   useEffect(() => {
     if (product) {
       setFormData({
-        ...product,
-        price: (product.price / 100).toString(), // convert kobo to cedis for display
+        name: product.name,
+        description: product.description,
+        price: (product.price / 100).toString(),
+        image: product.image,
+        category: product.category,
+        scentFamily: product.scentFamily,
+        size: product.size,
+        featured: product.featured,
       });
     } else {
-      setFormData({
-        name: '', slug: '', description: '', price: '', image: '',
-        category: 'Eau de Parfum', scentFamily: 'Floral',
-        topNotes: '', heartNotes: '', baseNotes: '', size: '100ml', featured: false
-      });
+      setFormData({ name: '', description: '', price: '', image: '', category: '', scentFamily: '', size: '', featured: false });
     }
   }, [product, isOpen]);
 
@@ -49,23 +48,26 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      // Convert price back to kobo before sending
       const payload = {
-        ...formData,
-        price: Math.round(parseFloat(formData.price) * 100)
+        name: formData.name,
+        slug: product?.slug || generateSlug(formData.name),
+        description: formData.description,
+        price: Math.round(parseFloat(formData.price) * 100),
+        image: formData.image,
+        category: formData.category,
+        scentFamily: formData.scentFamily,
+        size: formData.size,
+        featured: formData.featured,
+        topNotes: product?.topNotes || '',
+        heartNotes: product?.heartNotes || '',
+        baseNotes: product?.baseNotes || '',
       };
 
       const url = product ? `/api/admin/products/${product.id}` : '/api/admin/products';
       const method = product ? 'PATCH' : 'POST';
 
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
+      const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const data = await res.json();
 
       if (res.ok) {
@@ -83,111 +85,64 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
   };
 
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(10,8,5,0.8)', backdropFilter: 'blur(4px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem'
-    }}>
-      <div style={{
-        background: '#0d0d1f', borderRadius: '8px', border: '1px solid rgba(124,58,237,0.3)',
-        width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid rgba(124,58,237,0.1)' }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(5,5,15,0.85)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
+      <div style={{ background: '#120e0a', borderRadius: '8px', border: '1px solid rgba(201,169,110,0.3)', width: '100%', maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid rgba(201,169,110,0.1)' }}>
           <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.5rem', color: 'var(--color-gold)' }}>
             {product ? 'Edit Product' : 'New Product'}
           </h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#f5f0e8', cursor: 'pointer' }}>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}>
             <X size={24} />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div>
+            <label style={labelStyle}>Product Name</label>
+            <input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={inputStyle} />
+          </div>
+
+          <div>
+            <label style={labelStyle}>Description</label>
+            <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3}
+              style={{ ...inputStyle, resize: 'vertical' }} />
+          </div>
+
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Name</label>
-              <input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+              <label style={labelStyle}>Price (GH₵)</label>
+              <input type="number" step="0.01" required value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={inputStyle} />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Slug</label>
-              <input required value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+              <label style={labelStyle}>Size</label>
+              <input value={formData.size} onChange={e => setFormData({...formData, size: e.target.value})} placeholder="e.g. 100ml" style={inputStyle} />
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div>
+              <label style={labelStyle}>Category</label>
+              <input required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} placeholder="e.g. Eau de Parfum" style={inputStyle} />
+            </div>
+            <div>
+              <label style={labelStyle}>Scent Family</label>
+              <input required value={formData.scentFamily} onChange={e => setFormData({...formData, scentFamily: e.target.value})} placeholder="e.g. Floral" style={inputStyle} />
             </div>
           </div>
 
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Description</label>
-            <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3}
-              style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            <label style={labelStyle}>Image URL</label>
+            <input required value={formData.image} onChange={e => setFormData({...formData, image: e.target.value})} placeholder="https://..." style={inputStyle} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Price (GH₵)</label>
-              <input type="number" step="0.01" required value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Image URL</label>
-              <input required value={formData.image} onChange={e => setFormData({...formData, image: e.target.value})} 
-                placeholder="/images/example.jpg or https://"
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Category</label>
-              <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}>
-                <option>Eau de Parfum</option>
-                <option>Extrait de Parfum</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Scent Family</label>
-              <select value={formData.scentFamily} onChange={e => setFormData({...formData, scentFamily: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}>
-                <option>Floral</option>
-                <option>Woody</option>
-                <option>Oriental</option>
-                <option>Fresh</option>
-                <option>Gourmand</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Size</label>
-              <input value={formData.size} onChange={e => setFormData({...formData, size: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Top Notes</label>
-              <input value={formData.topNotes} onChange={e => setFormData({...formData, topNotes: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Heart Notes</label>
-              <input value={formData.heartNotes} onChange={e => setFormData({...formData, heartNotes: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--color-gold)' }}>Base Notes</label>
-              <input value={formData.baseNotes} onChange={e => setFormData({...formData, baseNotes: e.target.value})} 
-                style={{ width: '100%', padding: '0.5rem', background: '#0a0805', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <input type="checkbox" id="featured" checked={formData.featured} onChange={e => setFormData({...formData, featured: e.target.checked})} />
             <label htmlFor="featured" style={{ color: 'white', fontSize: '0.9rem' }}>Feature on homepage?</label>
           </div>
 
-          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-            <button type="button" onClick={onClose} style={{ padding: '0.5rem 1rem', background: 'transparent', color: 'white', border: '1px solid rgba(255,255,255,0.2)' }}>Cancel</button>
-            <button type="submit" disabled={loading} style={{ padding: '0.5rem 1.5rem', background: 'var(--color-gold)', color: 'black', border: 'none', cursor: loading ? 'not-allowed' : 'pointer' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '0.5rem' }}>
+            <button type="button" onClick={onClose} style={{ padding: '0.5rem 1rem', background: 'transparent', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '4px', cursor: 'pointer' }}>Cancel</button>
+            <button type="submit" disabled={loading} style={{ padding: '0.5rem 1.5rem', background: 'var(--color-gold)', color: 'white', border: 'none', borderRadius: '4px', cursor: loading ? 'not-allowed' : 'pointer' }}>
               {loading ? 'Saving...' : 'Save Product'}
             </button>
           </div>
