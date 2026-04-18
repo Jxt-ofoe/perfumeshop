@@ -6,6 +6,12 @@ import { revalidatePath } from 'next/cache';
 
 export async function POST() {
   try {
+    // Get count of unfeatured products
+    const unfeaturedProducts = await db
+      .select()
+      .from(products)
+      .where(eq(products.featured, false));
+
     // Update all products to be featured
     await db
       .update(products)
@@ -17,12 +23,13 @@ export async function POST() {
     
     return NextResponse.json({ 
       success: true, 
-      message: 'All products are now featured on homepage' 
+      count: unfeaturedProducts.length,
+      message: `Featured ${unfeaturedProducts.length} products on homepage` 
     });
   } catch (error) {
-    console.error('Error updating products:', error);
+    console.error('Error featuring products:', error);
     return NextResponse.json({ 
-      error: 'Failed to update products' 
+      error: 'Failed to feature products' 
     }, { status: 500 });
   }
 }

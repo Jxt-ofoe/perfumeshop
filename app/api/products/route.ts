@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort');
     const featured = searchParams.get('featured');
-    const limit = parseInt(searchParams.get('limit') || '12');
+    const limit = parseInt(searchParams.get('limit') || '50');
 
     let queryConditions = [];
 

@@ -10,6 +10,9 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,15 +20,17 @@ export default function ProductsPage() {
 
   useEffect(() => {
     fetchProducts();
-  }, [search]);
+  }, [search, page]);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/products?search=${search}&limit=50`);
+      const res = await fetch(`/api/admin/products?search=${search}&limit=50&page=${page}`);
       const data = await res.json();
       if (data.products) {
         setProducts(data.products);
+        setTotal(data.total || 0);
+        setTotalPages(data.pages || 1);
       }
     } catch {
       toast.error('Failed to load products');
@@ -34,40 +39,6 @@ export default function ProductsPage() {
     }
   };
 
-  const handleSeedCategories = async () => {
-    if (!confirm('Seed category settings? This will reset all categories.')) return;
-    
-    try {
-      const res = await fetch('/api/admin/seed-categories', { method: 'POST' });
-      const data = await res.json();
-      
-      if (res.ok) {
-        toast.success('Categories seeded successfully');
-      } else {
-        toast.error(data.error || 'Failed to seed categories');
-      }
-    } catch {
-      toast.error('Network Error');
-    }
-  };
-
-  const handleFeatureAll = async () => {
-    if (!confirm('Mark all products as featured on homepage?')) return;
-    
-    try {
-      const res = await fetch('/api/admin/feature-all', { method: 'POST' });
-      const data = await res.json();
-      
-      if (res.ok) {
-        toast.success('All products are now featured on homepage');
-        fetchProducts();
-      } else {
-        toast.error(data.error || 'Failed to update products');
-      }
-    } catch {
-      toast.error('Network Error');
-    }
-  };
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     
@@ -80,6 +51,24 @@ export default function ProductsPage() {
         fetchProducts();
       } else {
         toast.error(data.error || 'Failed to delete product');
+      }
+    } catch {
+      toast.error('Network Error');
+    }
+  };
+
+  const handleBulkFeature = async () => {
+    if (!confirm('Mark all products as featured on homepage?')) return;
+    
+    try {
+      const res = await fetch('/api/admin/bulk-feature', { method: 'POST' });
+      const data = await res.json();
+      
+      if (res.ok) {
+        toast.success(`Featured ${data.count} products on homepage`);
+        fetchProducts();
+      } else {
+        toast.error(data.error || 'Failed to feature products');
       }
     } catch {
       toast.error('Network Error');
@@ -102,18 +91,7 @@ export default function ProductsPage() {
         <h1 className="admin-title">Products Inventory</h1>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button 
-            onClick={handleSeedCategories}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '0.5rem',
-              background: 'rgba(100,100,255,0.1)', color: '#8888ff',
-              border: '1px solid rgba(100,100,255,0.3)', padding: '0.5rem 1rem', borderRadius: '4px',
-              cursor: 'pointer', fontWeight: 500, fontSize: '0.9rem'
-            }}
-          >
-            Seed Categories
-          </button>
-          <button 
-            onClick={handleFeatureAll}
+            onClick={handleBulkFeature}
             style={{
               display: 'flex', alignItems: 'center', gap: '0.5rem',
               background: 'rgba(201,169,110,0.1)', color: 'var(--color-gold)',
@@ -121,7 +99,7 @@ export default function ProductsPage() {
               cursor: 'pointer', fontWeight: 500, fontSize: '0.9rem'
             }}
           >
-            Feature All on Homepage
+            Feature All
           </button>
           <button 
             onClick={openNewModal}
@@ -138,18 +116,24 @@ export default function ProductsPage() {
       </div>
 
       <div className="admin-card" style={{ padding: '0' }}>
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(201,169,110,0.1)' }}>
+        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(201,169,110,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <input 
             type="text" 
             placeholder="Search products by name or slug..." 
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1); // Reset to first page on search
+            }}
             style={{
               width: '100%', maxWidth: '400px', padding: '0.75rem',
               background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,169,110,0.2)',
               color: 'white', borderRadius: '4px'
             }}
           />
+          <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>
+            {total} total products
+          </div>
         </div>
 
         <div style={{ overflowX: 'auto' }}>
@@ -207,6 +191,41 @@ export default function ProductsPage() {
             </tbody>
           </table>
         </div>
+        
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div style={{ padding: '1.5rem', borderTop: '1px solid rgba(201,169,110,0.1)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+            <button 
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
+              style={{
+                padding: '0.5rem 1rem', background: page === 1 ? 'rgba(255,255,255,0.05)' : 'rgba(201,169,110,0.1)',
+                color: page === 1 ? 'rgba(255,255,255,0.3)' : 'var(--color-gold)',
+                border: '1px solid rgba(201,169,110,0.2)', borderRadius: '4px',
+                cursor: page === 1 ? 'not-allowed' : 'pointer'
+              }}
+            >
+              Previous
+            </button>
+            
+            <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
+              Page {page} of {totalPages}
+            </span>
+            
+            <button 
+              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              disabled={page === totalPages}
+              style={{
+                padding: '0.5rem 1rem', background: page === totalPages ? 'rgba(255,255,255,0.05)' : 'rgba(201,169,110,0.1)',
+                color: page === totalPages ? 'rgba(255,255,255,0.3)' : 'var(--color-gold)',
+                border: '1px solid rgba(201,169,110,0.2)', borderRadius: '4px',
+                cursor: page === totalPages ? 'not-allowed' : 'pointer'
+              }}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
 
       <ProductModal 
