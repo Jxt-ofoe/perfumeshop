@@ -57,24 +57,6 @@ export default function ProductsPage() {
     }
   };
 
-  const handleBulkFeature = async () => {
-    if (!confirm('Mark all products as featured on homepage?')) return;
-    
-    try {
-      const res = await fetch('/api/admin/bulk-feature', { method: 'POST' });
-      const data = await res.json();
-      
-      if (res.ok) {
-        toast.success(`Featured ${data.count} products on homepage`);
-        fetchProducts();
-      } else {
-        toast.error(data.error || 'Failed to feature products');
-      }
-    } catch {
-      toast.error('Network Error');
-    }
-  };
-
   const openNewModal = () => {
     setEditingProduct(null);
     setIsModalOpen(true);
@@ -89,30 +71,17 @@ export default function ProductsPage() {
     <div>
       <div className="admin-header">
         <h1 className="admin-title">Products Inventory</h1>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button 
-            onClick={handleBulkFeature}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '0.5rem',
-              background: 'rgba(201,169,110,0.1)', color: 'var(--color-gold)',
-              border: '1px solid rgba(201,169,110,0.3)', padding: '0.5rem 1rem', borderRadius: '4px',
-              cursor: 'pointer', fontWeight: 500, fontSize: '0.9rem'
-            }}
-          >
-            Feature All
-          </button>
-          <button 
-            onClick={openNewModal}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '0.5rem',
-              background: 'var(--color-gold)', color: 'black',
-              border: 'none', padding: '0.5rem 1rem', borderRadius: '4px',
-              cursor: 'pointer', fontWeight: 500
-            }}
-          >
-            <Plus size={18} /> New Product
-          </button>
-        </div>
+        <button 
+          onClick={openNewModal}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '0.5rem',
+            background: 'var(--color-gold)', color: 'black',
+            border: 'none', padding: '0.5rem 1rem', borderRadius: '4px',
+            cursor: 'pointer', fontWeight: 500
+          }}
+        >
+          <Plus size={18} /> New Product
+        </button>
       </div>
 
       <div className="admin-card" style={{ padding: '0' }}>
@@ -143,7 +112,7 @@ export default function ProductsPage() {
                 <th style={{ padding: '1rem' }}>Name</th>
                 <th style={{ padding: '1rem' }}>Scent Family</th>
                 <th style={{ padding: '1rem' }}>Price (GH₵)</th>
-                <th style={{ padding: '1rem' }}>Status</th>
+                <th style={{ padding: '1rem' }}>Category</th>
                 <th style={{ padding: '1rem', textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
@@ -166,15 +135,7 @@ export default function ProductsPage() {
                     </td>
                     <td style={{ padding: '1rem', color: 'rgba(255,255,255,0.8)' }}>{p.scentFamily}</td>
                     <td style={{ padding: '1rem', color: 'rgba(255,255,255,0.8)' }}>{(p.price / 100).toFixed(2)}</td>
-                    <td style={{ padding: '1rem' }}>
-                      <span style={{ 
-                        padding: '0.25rem 0.5rem', borderRadius: '12px', fontSize: '0.75rem',
-                        background: p.featured ? 'rgba(201,169,110,0.1)' : 'rgba(255,255,255,0.05)',
-                        color: p.featured ? 'var(--color-gold)' : 'white'
-                      }}>
-                        {p.featured ? 'Featured' : 'Standard'}
-                      </span>
-                    </td>
+                    <td style={{ padding: '1rem', color: 'rgba(255,255,255,0.8)' }}>{p.category}</td>
                     <td style={{ padding: '1rem', textAlign: 'right' }}>
                       <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
                         <button onClick={() => openEditModal(p)} style={{ background: 'rgba(201,169,110,0.1)', color: 'var(--color-gold)', border: 'none', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer' }}>

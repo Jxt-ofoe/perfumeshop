@@ -13,7 +13,6 @@ export async function GET(request: Request) {
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort');
-    const featured = searchParams.get('featured');
     const limit = parseInt(searchParams.get('limit') || '50');
 
     let queryConditions = [];
@@ -22,7 +21,6 @@ export async function GET(request: Request) {
     if (scent) queryConditions.push(eq(products.scentFamily, scent));
     if (minPrice) queryConditions.push(gte(products.price, parseInt(minPrice)));
     if (maxPrice) queryConditions.push(lte(products.price, parseInt(maxPrice)));
-    if (featured === 'true') queryConditions.push(eq(products.featured, true));
 
     const whereClause = queryConditions.length > 0 ? and(...queryConditions) : undefined;
 

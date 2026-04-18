@@ -47,6 +47,28 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!formData.name.trim()) {
+      toast.error('Product name is required');
+      return;
+    }
+    
+    if (!formData.description.trim()) {
+      toast.error('Product description is required');
+      return;
+    }
+    
+    if (!formData.price || parseFloat(formData.price) <= 0) {
+      toast.error('Valid price is required');
+      return;
+    }
+    
+    if (!formData.image.trim()) {
+      toast.error('Product image URL is required');
+      return;
+    }
+    
     setLoading(true);
     try {
       const payload = {
@@ -68,17 +90,19 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
       const method = product ? 'PATCH' : 'POST';
 
       const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      const data = await res.json();
-
-      if (res.ok) {
-        toast.success(`Product successfully ${product ? 'updated' : 'created'}`);
-        onSuccess();
-        onClose();
-      } else {
-        toast.error(data.error || 'Failed to save product');
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
       }
-    } catch {
-      toast.error('Network error');
+      
+      const data = await res.json();
+      
+      toast.success(`Product successfully ${product ? 'updated' : 'created'}`);
+      onSuccess();
+      onClose();
+    } catch (error: any) {
+      toast.error(error.message || 'Network error');
     } finally {
       setLoading(false);
     }
@@ -133,11 +157,6 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
           <div>
             <label style={labelStyle}>Image URL</label>
             <input required value={formData.image} onChange={e => setFormData({...formData, image: e.target.value})} placeholder="https://..." style={inputStyle} />
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <input type="checkbox" id="featured" checked={formData.featured} onChange={e => setFormData({...formData, featured: e.target.checked})} />
-            <label htmlFor="featured" style={{ color: 'white', fontSize: '0.9rem' }}>Feature on homepage?</label>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '0.5rem' }}>

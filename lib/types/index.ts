@@ -89,7 +89,6 @@ export interface FilterParams {
   minPrice?: number;
   maxPrice?: number;
   sort?: string;
-  featured?: boolean;
   limit?: number;
   offset?: number;
 }

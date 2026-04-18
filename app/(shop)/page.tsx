@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { db } from '@/lib/db';
 import { products } from '@/lib/db/schema';
 import type { Product } from '@/lib/types';
-import { eq } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 import HeroSection from './sections/HeroSection';
 import FeaturedSection from './sections/FeaturedSection';
 import StorySection from './sections/StorySection';
@@ -19,21 +19,21 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  let featuredProducts: Product[] = [];
+  let allProducts: Product[] = [];
   try {
-    featuredProducts = await db
+    allProducts = await db
       .select()
       .from(products)
-      .where(eq(products.featured, true))
+      .orderBy(desc(products.createdAt))
       .limit(12);
   } catch {
-    featuredProducts = [];
+    allProducts = [];
   }
 
   return (
     <>
       <HeroSection />
-      <FeaturedSection products={featuredProducts} />
+      <FeaturedSection products={allProducts} />
       <StorySection />
       <FamiliesSection />
       <TestimonialsSection />

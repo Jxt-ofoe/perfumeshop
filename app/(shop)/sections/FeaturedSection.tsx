@@ -13,7 +13,7 @@ interface FeaturedSectionProps {
 export default function FeaturedSection({ products: initialProducts }: FeaturedSectionProps) {
   const [products, setProducts] = useState(initialProducts);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(initialProducts.length === 12); // Only show Load More if we got a full page
   const [page, setPage] = useState(2); // Start from page 2 since initial products are page 1
 
   const loadMore = async () => {
@@ -22,6 +22,11 @@ export default function FeaturedSection({ products: initialProducts }: FeaturedS
     setLoading(true);
     try {
       const res = await fetch(`/api/featured-products?page=${page}&limit=12`);
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
       const data = await res.json();
       
       if (data.products && data.products.length > 0) {
@@ -48,7 +53,7 @@ export default function FeaturedSection({ products: initialProducts }: FeaturedS
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        Exquisite Creations
+        Our Complete Collection
       </motion.span>
 
       <motion.h2
@@ -58,7 +63,7 @@ export default function FeaturedSection({ products: initialProducts }: FeaturedS
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.1 }}
       >
-        The Signature Collection
+        All Our Fragrances
       </motion.h2>
 
       <div className="grid-3">
@@ -93,7 +98,7 @@ export default function FeaturedSection({ products: initialProducts }: FeaturedS
               marginBottom: '1rem'
             }}
           >
-            {loading ? 'Loading More...' : 'Load More Fragrances'}
+            {loading ? 'Loading More...' : 'Load More Products'}
           </button>
         )}
         
