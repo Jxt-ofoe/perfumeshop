@@ -28,7 +28,7 @@ export default function AdminNav() {
   return (
     <>
       <aside className="admin-sidebar">
-        <div className="admin-logo">VELOUR HQ</div>
+        <div className="admin-logo">CHARLENE LUXE</div>
         <nav className="admin-nav-links" style={{ flex: 1 }}>
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href;
