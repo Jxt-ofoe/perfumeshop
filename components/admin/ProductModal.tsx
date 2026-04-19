@@ -21,25 +21,13 @@ const labelStyle = { display: 'block', marginBottom: '0.4rem', fontSize: '0.78re
 
 export default function ProductModal({ product, isOpen, onClose, onSuccess }: ProductModalProps) {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '', description: '', price: '', image: '',
-    category: '', scentFamily: '', size: '', featured: true,
-  });
+  const [formData, setFormData] = useState({ name: '', price: '' });
 
   useEffect(() => {
     if (product) {
-      setFormData({
-        name: product.name,
-        description: product.description,
-        price: (product.price / 100).toString(),
-        image: product.image,
-        category: product.category,
-        scentFamily: product.scentFamily,
-        size: product.size,
-        featured: product.featured,
-      });
+      setFormData({ name: product.name, price: (product.price / 100).toString() });
     } else {
-      setFormData({ name: '', description: '', price: '', image: '', category: '', scentFamily: '', size: '', featured: true });
+      setFormData({ name: '', price: '' });
     }
   }, [product, isOpen]);
 
@@ -48,42 +36,17 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
-    if (!formData.name.trim()) {
-      toast.error('Product name is required');
+    if (!formData.name.trim() || !formData.price || parseFloat(formData.price) <= 0) {
+      toast.error('Name and price are required');
       return;
     }
-    
-    if (!formData.description.trim()) {
-      toast.error('Product description is required');
-      return;
-    }
-    
-    if (!formData.price || parseFloat(formData.price) <= 0) {
-      toast.error('Valid price is required');
-      return;
-    }
-    
-    if (!formData.image.trim()) {
-      toast.error('Product image URL is required');
-      return;
-    }
-    
+
     setLoading(true);
     try {
       const payload = {
         name: formData.name,
         slug: product?.slug || generateSlug(formData.name),
-        description: formData.description,
         price: Math.round(parseFloat(formData.price) * 100),
-        image: formData.image,
-        category: formData.category,
-        scentFamily: formData.scentFamily,
-        size: formData.size,
-        featured: formData.featured,
-        topNotes: product?.topNotes || '',
-        heartNotes: product?.heartNotes || '',
-        baseNotes: product?.baseNotes || '',
       };
 
       const url = product ? `/api/admin/products/${product.id}` : '/api/admin/products';
@@ -127,48 +90,8 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
           </div>
 
           <div>
-            <label style={labelStyle}>Description</label>
-            <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3}
-              style={{ ...inputStyle, resize: 'vertical' }} />
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={labelStyle}>Price (GH₵)</label>
-              <input type="number" step="0.01" required value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={inputStyle} />
-            </div>
-            <div>
-              <label style={labelStyle}>Size</label>
-              <input value={formData.size} onChange={e => setFormData({...formData, size: e.target.value})} placeholder="e.g. 100ml" style={inputStyle} />
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={labelStyle}>Category</label>
-              <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} style={inputStyle}>
-                <option value="">Select Category</option>
-                <option value="Eau de Parfum">Eau de Parfum</option>
-                <option value="Extrait de Parfum">Extrait de Parfum</option>
-                <option value="Mini Perfumes">Mini Perfumes</option>
-              </select>
-            </div>
-            <div>
-              <label style={labelStyle}>Scent Family</label>
-              <select required value={formData.scentFamily} onChange={e => setFormData({...formData, scentFamily: e.target.value})} style={inputStyle}>
-                <option value="">Select Scent Family</option>
-                <option value="Floral">Floral</option>
-                <option value="Woody">Woody</option>
-                <option value="Oriental">Oriental</option>
-                <option value="Fresh">Fresh</option>
-                <option value="Gourmand">Gourmand</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label style={labelStyle}>Image URL</label>
-            <input required value={formData.image} onChange={e => setFormData({...formData, image: e.target.value})} placeholder="https://..." style={inputStyle} />
+            <label style={labelStyle}>Price (GH₵)</label>
+            <input type="number" step="0.01" required value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={inputStyle} />
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '0.5rem' }}>
