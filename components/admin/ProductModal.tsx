@@ -22,7 +22,7 @@ const labelStyle = { display: 'block', marginBottom: '0.4rem', fontSize: '0.78re
 export default function ProductModal({ product, isOpen, onClose, onSuccess }: ProductModalProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '', description: '', price: '', image: '',
+    name: '', price: '', image: '',
     category: '', scentFamily: '', size: '', featured: true,
   });
 
@@ -30,7 +30,6 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
     if (product) {
       setFormData({
         name: product.name,
-        description: product.description,
         price: (product.price / 100).toString(),
         image: product.image,
         category: product.category,
@@ -39,7 +38,7 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
         featured: product.featured,
       });
     } else {
-      setFormData({ name: '', description: '', price: '', image: '', category: '', scentFamily: '', size: '', featured: true });
+      setFormData({ name: '', price: '', image: '', category: '', scentFamily: '', size: '', featured: true });
     }
   }, [product, isOpen]);
 
@@ -51,11 +50,6 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
     // Basic validation
     if (!formData.name.trim()) {
       toast.error('Product name is required');
-      return;
-    }
-    
-    if (!formData.description.trim()) {
-      toast.error('Product description is required');
       return;
     }
     
@@ -74,7 +68,6 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
       const payload = {
         name: formData.name,
         slug: product?.slug || generateSlug(formData.name),
-        description: formData.description,
         price: Math.round(parseFloat(formData.price) * 100),
         image: formData.image,
         category: formData.category,
@@ -124,12 +117,6 @@ export default function ProductModal({ product, isOpen, onClose, onSuccess }: Pr
           <div>
             <label style={labelStyle}>Product Name</label>
             <input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={inputStyle} />
-          </div>
-
-          <div>
-            <label style={labelStyle}>Description</label>
-            <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3}
-              style={{ ...inputStyle, resize: 'vertical' }} />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
