@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     const [inserted] = await db.insert(products).values({
       name: body.name,
       slug: body.slug || body.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
-      description: body.description,
+      description: body.description || '',
       price: parseInt(body.price),
       image: body.image || '/images/bottle-placeholder.jpg',
       category: body.category || '',
