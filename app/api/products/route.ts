@@ -13,7 +13,9 @@ export async function GET(request: Request) {
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
     const sort = searchParams.get('sort');
-    const limit = parseInt(searchParams.get('limit') || '50');
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '24');
+    const offset = (page - 1) * limit;
 
     let queryConditions = [];
 
@@ -49,7 +51,8 @@ export async function GET(request: Request) {
       .from(products)
       .where(whereClause)
       .orderBy(orderByClause)
-      .limit(limit);
+      .limit(limit)
+      .offset(offset);
 
     // Get total count
     const countResult = await db
@@ -57,12 +60,14 @@ export async function GET(request: Request) {
       .from(products)
       .where(whereClause);
       
-    const total = countResult[0].count;
+    const total = Number(countResult[0].count);
 
     return NextResponse.json({
       products: results,
       total,
-      page: 1,
+      page,
+      pages: Math.ceil(total / limit),
+      hasMore: page * limit < total,
     });
   } catch (error) {
     console.error('Products API Error:', error);
